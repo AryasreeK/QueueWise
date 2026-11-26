@@ -34,7 +34,7 @@ import QueueConfiguration from "./QueueConfiguration";
 import SupportCentre from "./SupportCentre";
 import TokenActivityHistory from "./TokenActivityHistory";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const TOKEN_KEY = "queuewise_auth_token";
 const MY_TOKEN_KEY = "queuewise_my_token_id";
 

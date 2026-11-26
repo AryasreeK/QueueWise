@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const TOKEN_KEY = "queuewise_auth_token";
 
 async function request(path, options = {}) {

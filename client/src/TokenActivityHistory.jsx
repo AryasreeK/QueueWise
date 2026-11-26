@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { RefreshCw, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const TOKEN_KEY = "queuewise_auth_token";
 
 const actions = [
