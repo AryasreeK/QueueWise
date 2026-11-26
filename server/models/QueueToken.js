@@ -17,23 +17,34 @@ const queueTokenSchema = new mongoose.Schema({
     type: String,
     default: "Guest",
   },
+  recoveryPinHash: {
+    type: String,
+    select: false,
+  },
   status: {
     type: String,
-    enum: ["waiting", "serving", "completed", "skipped"],
+    enum: [
+      "waiting",
+      "serving",
+      "completed",
+      "skipped",
+      "cancelled",
+      "expired",
+    ],
     default: "waiting",
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  expiresAt: Date,
   servedAt: Date,
   completedAt: Date,
+  cancelledAt: Date,
 });
 
-// Prevent duplicate token numbers within a service.
 queueTokenSchema.index({ serviceId: 1, tokenNumber: 1 }, { unique: true });
 
-// Allow only one serving token per service.
 queueTokenSchema.index(
   { serviceId: 1 },
   {
@@ -43,13 +54,13 @@ queueTokenSchema.index(
   },
 );
 
-// Return "id" to the frontend instead of MongoDB's "_id".
 queueTokenSchema.set("toJSON", {
   virtuals: true,
   transform: (_doc, ret) => {
     ret.id = ret._id.toString();
     delete ret._id;
     delete ret.__v;
+    delete ret.recoveryPinHash;
     return ret;
   },
 });
